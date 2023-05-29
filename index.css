@@ -1,0 +1,21 @@
+body{
+    background-color: black;
+}
+h1{
+    color: whitesmoke; 
+}
+label{
+    color: whitesmoke;
+}
+ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+}  
+li{
+    color: whitesmoke;
+    list-style-type: none;
+}
+.line-through{
+    text-decoration: line-through;
+}
