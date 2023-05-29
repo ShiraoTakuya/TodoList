@@ -18,7 +18,10 @@
  
 * 消す機能はありません
 * session_idが変わると表示が変わります
+* 以下のシステム構成です
  
+![system_diagram](https://raw.githubusercontent.com/ShiraoTakuya/PHP_Repositories/main/TodoList/system_diagram.png)
+
 # Author
   
 * ShiraoTakuya
