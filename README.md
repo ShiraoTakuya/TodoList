@@ -8,11 +8,14 @@
 ![demo](https://raw.githubusercontent.com/ShiraoTakuya/PHP_Repositories/main/TodoList/cap.PNG)
 
 チェックボックスのON/OFFでプルダウンできます。
+
+以下のリンクにアクセスすると動作確認できます
+* http://genuine.php.xdomain.jp/todolist/index.html
   
 # Usage
 
-以下のリンクにアクセス
-* http://genuine.php.xdomain.jp/index.html
+* 各ファイルを適切にサーバーにおいてください。
+* SET.INIの中身はダミーデータなので適切に変更してください。
  
 # Note
  

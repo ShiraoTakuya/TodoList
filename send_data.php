@@ -1,4 +1,10 @@
 <?php
+    ini_set('session.gc_maxlifetime', 365*24*3600);
+    ini_set('session.cookie_lifetime', 365*24*3600);
+    session_start();
+    //setcookie(session_name(),session_id(),time()+365*24*3600); 
+    setcookie(session_id());
+
     $id = htmlspecialchars($_GET["id"]);
     $parentid = htmlspecialchars($_GET["parentid"]);
     $elementtype = htmlspecialchars($_GET["elementtype"]);
@@ -6,40 +12,27 @@
     $finish = htmlspecialchars($_GET["finish"]);
     $hide = htmlspecialchars($_GET["hide"]);
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "myDB";
-    $port = 3306;
-
-    $conn = new mysqli($servername, $username, $password,$dbname,$port);
+    $set = json_decode(file_get_contents("SET.INI"));
+    $conn = new mysqli($set->servername, $set->username, $set->password,$set->dbname,$set->port);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "CREATE TABLE IF NOT EXISTS list (
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        parentid VARCHAR(30),
-        elementtype VARCHAR(30) NOT NULL,
-        string VARCHAR(30) NOT NULL,
-        finish int(1) NOT NULL,
-        hide int(1) NOT NULL,
-        reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )";
     if ($conn->query($sql) === TRUE) {
         echo "Database created successfully";
     } else {
         echo "Error creating database: " . $conn->error;
     }
 
+    $session_id = session_id();
     if($id == "null"){
-        $stmt = $conn->prepare("INSERT INTO list SET parentid=?, elementtype=?, string=?, finish=?, hide=?");
-        $stmt->bind_param("sssss", $parentid,$elementtype,$string,$finish,$hide);
+        $stmt = $conn->prepare("INSERT INTO list SET session_id=?, parentid=?, elementtype=?, string=?, finish=?, hide=?");
+        $stmt->bind_param("ssssss", $session_id,$parentid,$elementtype,$string,$finish,$hide);
         $stmt->execute();
         $stmt->close();
     }else{
-        $stmt = $conn->prepare("UPDATE list SET parentid=?, elementtype=?, string=?, finish=?, hide=? WHERE id=?");
-        $stmt->bind_param("ssssss", $parentid,$elementtype,$string,$finish,$hide,$id);
+        $stmt = $conn->prepare("UPDATE list SET session_id=?, parentid=?, elementtype=?, string=?, finish=?, hide=? WHERE id=?");
+        $stmt->bind_param("sssssss", $session_id,$parentid,$elementtype,$string,$finish,$hide,$id);
         $stmt->execute();
         $stmt->close();
     }
